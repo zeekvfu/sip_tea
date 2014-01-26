@@ -1,3 +1,11 @@
+update.txt
+url.log
+*.mp3
+*.m4a
+
+
+
+
 *.py[cod]
 
 # C extensions
