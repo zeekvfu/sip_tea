@@ -2,30 +2,11 @@
 # -*- coding: UTF-8 -*-
 
 
-import os
 import sys
-import string
-import datetime
-
-import urllib.request
-import urllib.error
-import shutil
-
 import logging
 
-
-def download(url, file_name=None, overwrite=False):
-	# 如果文件名为空，则从 URL 中获取文件名
-	if file_name is None:
-		file_name = url.rpartition('/')[-1]
-	# 如果不覆盖己有文件，而已有文件不完整（eg. 没下载全），会有潜在影响
-	if (not overwrite) and (os.path.exists(file_name)):
-		return
-	try:
-		with urllib.request.urlopen(url) as response, open(file_name, 'wb') as out_stream:
-			shutil.copyfileobj(response, out_stream)
-	except urllib.error.URLError as e:
-		print(e.errno, '\n', e.reason, '\n')
+import single_thread_download
+from single_thread_download import single_thread_download
 
 
 def GetURL(index):
@@ -49,8 +30,8 @@ def GetURL(index):
 
 
 print('将从 Teahour.FM 下载 podcast episodes ...')
-begin = int(input(u'请输入开始的期数：'))
-end   = int(input(u'请输入结束的期数：'))
+begin = int(input('请输入开始的期数：'))
+end   = int(input('请输入结束的期数：'))
 
 log_file = 'url.log'
 with open(log_file, 'at') as logger:
@@ -67,7 +48,7 @@ logging.getLogger().addHandler(stdout_handler)
 for index in range(begin, end+1):
 	url = GetURL(index)
 	logging.info(str(index) + '\t' + url)
-	download(url)
+	single_thread_download(url)
 
 logging.shutdown()
 
