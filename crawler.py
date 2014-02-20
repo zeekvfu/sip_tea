@@ -1,5 +1,6 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: UTF-8 -*-
+# crawler.py
 
 
 import sys
@@ -8,8 +9,11 @@ import logging
 import single_thread_download
 from single_thread_download import single_thread_download
 
+import single_thread_continous_download
+from single_thread_continous_download import single_thread_continous_download
 
-def GetURL(index):
+
+def get_url(index):
 	if (index in range(11, 22)) or (index >= 24):
 		url = 'http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_' + str(index) + '.m4a'
 	elif index == 23:
@@ -46,7 +50,7 @@ stdout_handler.setFormatter(formatter)
 logging.getLogger().addHandler(stdout_handler)
 
 for index in range(begin, end+1):
-	url = GetURL(index)
+	url = get_url(index)
 	logging.info(str(index) + '\t' + url)
 	single_thread_download(url)
 
@@ -72,7 +76,7 @@ logging.shutdown()
 # http://teahourfm.qiniudn.com/teahour_episode_22.m4a
 # 23
 # http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_22-2.m4a
-# [11, 21], [24, 43]
+# [11, 21], [24, 44]
 # http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_11.m4a
 
 # download('http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_43.m4a')
