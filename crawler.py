@@ -55,7 +55,7 @@ logging.getLogger().addHandler(stdout_handler)
 for index in range(begin, end+1):
 	url = get_url(index)
 	logging.info(str(index) + '\t' + url)
-	single_thread_download(url)
+	multi_thread_download(url)
 
 logging.shutdown()
 
