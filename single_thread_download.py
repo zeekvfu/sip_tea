@@ -9,6 +9,7 @@ import urllib.error
 import shutil
 
 
+# 单线程
 def single_thread_download(url, file_name=None, overwrite=False):
 	# 如果文件名为空，则从 URL 中获取文件名
 	if file_name is None:

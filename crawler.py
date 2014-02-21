@@ -12,6 +12,9 @@ from single_thread_download import single_thread_download
 import single_thread_continous_download
 from single_thread_continous_download import single_thread_continous_download
 
+import multi_thread_download
+from multi_thread_download import multi_thread_download
+
 
 def get_url(index):
 	if (index in range(11, 22)) or (index >= 24):
