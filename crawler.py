@@ -15,6 +15,9 @@ from single_thread_continous_download import single_thread_continous_download
 import multi_thread_download
 from multi_thread_download import multi_thread_download
 
+import multi_thread_continous_download
+from multi_thread_continous_download import multi_thread_continous_download
+
 
 def get_url(index):
 	if (index in range(11, 22)) or (index >= 24):
@@ -55,7 +58,7 @@ logging.getLogger().addHandler(stdout_handler)
 for index in range(begin, end+1):
 	url = get_url(index)
 	logging.info(str(index) + '\t' + url)
-	multi_thread_download(url)
+	multi_thread_continous_download(url)
 
 logging.shutdown()
 
