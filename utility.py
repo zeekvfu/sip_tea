@@ -3,9 +3,9 @@
 # utility.py
 
 
+import os
 import urllib.request
 import urllib.error
-
 import math
 
 
@@ -32,5 +32,21 @@ def split_file_size(file_size, block_count=4):
 	ranges.append(((block_count-1)*block_size, file_size-1))
 	# print(ranges)
 	return ranges
+
+
+# 对文件进行切割后，各个文件块的文件名
+def split_file_name(file_name, block_no):
+	return (file_name + '_part'+ str(block_no))
+
+
+# 对各个文件块进行拼接，形成最终的文件
+def append_file(file_name, block_count, remove_file_block=True):
+	with open(file_name, 'wb') as out_stream:
+		for i in range(block_count):
+			tmp_file_name = split_file_name(file_name, i)
+			with open(tmp_file_name, 'rb') as tmp_out_stream:
+				out_stream.write(tmp_out_stream.read())
+			if remove_file_block:
+				os.remove(tmp_file_name)
 
 
