@@ -9,6 +9,8 @@ import urllib.request
 import urllib.error
 import shutil
 
+from socket import timeout
+
 import utility
 from utility import get_file_size
 from utility import split_file_size
@@ -20,33 +22,41 @@ from single_thread_continous_download import single_thread_continous_download
 
 
 # 各个子线程下载自己负责的那部分内容
-def sub_thread_continous_download(url, file_name, begin, end):
-	_begin = begin
-	if os.path.exists(file_name):
-		target_size = end - begin + 1
-		if (target_size < 0):
-			print("sub_thread_continous_download(): file size error!")
-			return
-		current_size = os.path.getsize(file_name)
-		# 此处认为已存在的同名文件，就是要下载的目标文件，只是未下载完而已，可以继续下载
-		if (current_size < target_size):
-			_begin += current_size
-		elif (current_size == target_size):
-			print("sub_thread_continous_download(): file download complete!")
-			return 
-		# 已存在的同名文件大小 > 要下载的目标文件大小，重命名已存在文件，重新下载目标文件
-		else:
-			print("sub_thread_continous_download(): file size exception, current file size bigger than target file size!")
-			new_file_name = file_name + '.backUP'
-			os.rename(file_name, new_file_name)
-			print("sub_thread_continous_download(): %s renamed to %s ..." % (file_name, new_file_name))
-	req = urllib.request.Request(url)
-	req.add_header('Range', 'bytes=%d-%d' % (_begin, end))
-	try:
-		with urllib.request.urlopen(req) as response, open(file_name, 'ab+') as out_stream:
-			shutil.copyfileobj(response, out_stream)
-	except urllib.error.URLError as e:
-		print(e.errno, '\n', e.reason, '\n')
+def sub_thread_continous_download(url, file_name, begin, end, timeout_retry=True):
+	need_timeout_retry = False		# 仅从下载需求本身来看，是否需要超时重传。默认不需要
+	while True:
+		_begin = begin
+		if os.path.exists(file_name):
+			target_size = end - begin + 1
+			if (target_size < 0):
+				print("sub_thread_continous_download(): file size error!")
+				return
+			current_size = os.path.getsize(file_name)
+			# 此处认为已存在的同名文件，就是要下载的目标文件，只是未下载完而已，可以继续下载
+			if (current_size < target_size):
+				_begin += current_size
+			elif (current_size == target_size):
+				print("sub_thread_continous_download(): file download complete!")
+				return 
+			# 已存在的同名文件大小 > 要下载的目标文件大小，重命名已存在文件，重新下载目标文件
+			else:
+				print("sub_thread_continous_download(): file size exception, current file size bigger than target file size!")
+				new_file_name = file_name + '.backUP'
+				os.rename(file_name, new_file_name)
+				print("sub_thread_continous_download(): %s renamed to %s ..." % (file_name, new_file_name))
+		req = urllib.request.Request(url)
+		req.add_header('Range', 'bytes=%d-%d' % (_begin, end))
+		try:
+			with urllib.request.urlopen(req, timeout=30) as response, open(file_name, 'ab+') as out_stream:
+				shutil.copyfileobj(response, out_stream)
+		except urllib.error.URLError as e:
+			print(e.errno, '\n', e.reason, '\n')
+		except timeout:
+			print('sub_thread_continous_download(): socket time out ...')
+			need_timeout_retry = True
+		if (not timeout_retry or not need_timeout_retry):
+			break
+	return 
 
 
 # 多线程，断点续传
