@@ -52,7 +52,7 @@ def sub_thread_continous_download(url, file_name, begin, end):
 # 多线程，断点续传
 def multi_thread_continous_download(url, file_name=None, overwrite=False, thread_num=4):
 	if thread_num == 1:
-		single_thread_download(url, file_name, overwrite)
+		single_thread_continous_download(url, file_name, overwrite)
 	elif thread_num > 1:
 		# 如果文件名为空，则从 URL 中获取文件名
 		if file_name is None:
@@ -75,7 +75,7 @@ def multi_thread_continous_download(url, file_name=None, overwrite=False, thread
 		ranges = split_file_size(target_size, thread_num)
 		thread_group = []
 		for i in range(thread_num):
-			print(i, '\t', ranges[i][0], ',', ranges[i][1])
+			# print(i, '\t', ranges[i][0], ',', ranges[i][1])
 			t = threading.Thread(target=sub_thread_continous_download, name="thread%d" % i, args=(url, split_file_name(file_name, i), ranges[i][0], ranges[i][1]))
 			t.start()
 			thread_group.append(t)

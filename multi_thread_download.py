@@ -48,7 +48,7 @@ def multi_thread_download(url, file_name=None, overwrite=False, thread_num=4):
 		ranges = split_file_size(target_size, thread_num)
 		thread_group = []
 		for i in range(thread_num):
-			print(i, '\t', ranges[i][0], ',', ranges[i][1])
+			# print(i, '\t', ranges[i][0], ',', ranges[i][1])
 			t = threading.Thread(target=sub_thread_download, name="thread%d" % i, args=(url, split_file_name(file_name, i), ranges[i][0], ranges[i][1]))
 			t.start()
 			thread_group.append(t)
