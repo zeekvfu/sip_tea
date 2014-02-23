@@ -7,7 +7,7 @@ download podcast episodes from [Teahour.FM](http://teahour.fm/)
 运行环境：  
 Linux, Python 3.x
 
-使用说明：  
+使用方法：  
 $ cd sip_tea  
 $ chmod u+x crawler.py  
 $ ./crawler.py  
