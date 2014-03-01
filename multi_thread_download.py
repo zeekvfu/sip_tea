@@ -10,10 +10,7 @@ import urllib.error
 import shutil
 
 import utility
-from utility import get_file_size
-from utility import split_file_size
-from utility import split_file_name
-from utility import append_file
+from utility import get_file_size, split_file_size, split_file_name, append_file
 
 import single_thread_download
 from single_thread_download import single_thread_download
