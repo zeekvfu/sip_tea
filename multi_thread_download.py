@@ -54,9 +54,9 @@ def multi_thread_download(url, file_name=None, overwrite=False, thread_num=4):
 		append_file(file_name, thread_num, False)
 
 
-multi_thread_download("http://screencasts.b0.upaiyun.com/podcasts/nil_podcast_1.m4a", overwrite=False, thread_num=4)
 # multi_thread_download("http://iweb.dl.sourceforge.net/project/zsh/zsh-doc/5.0.5/zsh-5.0.5-doc.tar.bz2", overwrite=True, thread_num=4)
 # multi_thread_download("https://github.com/zeekvfu/sip_tea/archive/master.zip", overwrite=True, thread_num=4)
+# multi_thread_download("http://screencasts.b0.upaiyun.com/podcasts/nil_podcast_1.m4a", overwrite=False, thread_num=4)
 
 
 
