@@ -14,12 +14,14 @@ def get_file_size(url):
 	try:
 		with urllib.request.urlopen(url) as response:
 			headers = response.info()
-		if 'Content-Length' in headers:
-			return int(headers['Content-Length'])
-		else:
-			return -1
+			# print(headers)
+			if 'Content-Length' in headers:
+				return int(headers['Content-Length'])
+			else:
+				return -1
 	except urllib.error.URLError as e:
 		print(e.errno, '\n', e.reason, '\n')
+		return -1
 
 
 # 对文件大小进行切割，以供各个线程分别下载

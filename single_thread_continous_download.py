@@ -28,14 +28,14 @@ def single_thread_continous_download(url, file_name=None, overwrite=False):
 		if (current_size < target_size):
 			begin = current_size
 		elif (current_size == target_size):
-			print("single_thread_continous_download(): file download complete!")
+			print("single_thread_continous_download(): file %s already downloaded complete!" %(file_name))
 			return 
 		# 已存在的同名文件大小 > 要下载的目标文件大小，重命名已存在文件，重新下载目标文件
 		else:
 			print("single_thread_continous_download(): file size exception, current file size bigger than target file size!")
 			new_file_name = file_name + '.backUP'
 			os.rename(file_name, new_file_name)
-			print("single_thread_continous_download(): %s renamed to %s ..." % (file_name, new_file_name))
+			print("single_thread_continous_download(): %s renamed to %s ..." %(file_name, new_file_name))
 	req = urllib.request.Request(url)
 	req.add_header('Range', 'bytes=%d-' % (begin))
 	try:

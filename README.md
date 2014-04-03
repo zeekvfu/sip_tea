@@ -5,7 +5,7 @@ download podcast episodes from [Teahour.FM](http://teahour.fm/)
 从 [Teahour.FM](http://teahour.fm/) 下载 podcast episodes  
 
 运行环境：  
-Linux, Python 3.x
+Linux, Python 3.x  
 
 使用方法：  
 $ cd sip_tea  
@@ -19,6 +19,7 @@ $ ./crawler.py
 超时重传  
 
 PS.  
+[博客](http://mindcache.info/)介绍：http://mindcache.info/2014/02/23/python-download-teahour-podcast.html
 [Teahour.FM](http://teahour.fm/) 网址：http://teahour.fm/   
 [Teahour.FM](http://teahour.fm/) 在 GitHub 上的地址：https://github.com/pragmaticly/teahour.fm  
 
