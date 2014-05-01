@@ -55,7 +55,7 @@ def append_file(file_name, block_count, remove_file_block=True):
 		tmp_file_name_group = []
 		for i in range(block_count):
 			tmp_file_name = split_file_name(file_name, i)
-			# 需要事先判断要拼接的文件各块儿是否都存在。如果发现有一块儿不存在，不拼接
+			# 需要事先判断要拼接的文件各个块儿是否都存在。如果发现有一块儿不存在，不拼接
 			if not os.path.exists(tmp_file_name):
 				return 
 			tmp_file_name_group.append(tmp_file_name)
