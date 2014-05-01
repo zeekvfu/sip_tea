@@ -42,10 +42,24 @@ def split_file_name(file_name, block_no):
 
 
 # 对各个文件块进行拼接，形成最终的文件
+# def append_file(file_name, block_count, remove_file_block=True):
+# 	with open(file_name, 'wb') as out_stream:
+# 		for i in range(block_count):
+# 			tmp_file_name = split_file_name(file_name, i)
+# 			with open(tmp_file_name, 'rb') as tmp_out_stream:
+# 				out_stream.write(tmp_out_stream.read())
+# 			if remove_file_block:
+# 				os.remove(tmp_file_name)
 def append_file(file_name, block_count, remove_file_block=True):
 	with open(file_name, 'wb') as out_stream:
+		tmp_file_name_group = []
 		for i in range(block_count):
 			tmp_file_name = split_file_name(file_name, i)
+			# 需要事先判断要拼接的文件各块儿是否都存在。如果发现有一块儿不存在，不拼接
+			if not os.path.exists(tmp_file_name):
+				return 
+			tmp_file_name_group.append(tmp_file_name)
+		for tmp_file_name in tmp_file_name_group:
 			with open(tmp_file_name, 'rb') as tmp_out_stream:
 				out_stream.write(tmp_out_stream.read())
 			if remove_file_block:

@@ -44,7 +44,7 @@ def sub_thread_continous_download(url, file_name, begin, end, timeout_retry=True
 		req = urllib.request.Request(url)
 		req.add_header('Range', 'bytes=%d-%d' % (_begin, end))
 		try:
-			with urllib.request.urlopen(req, timeout=30) as response, open(file_name, 'ab+') as out_stream:
+			with urllib.request.urlopen(req, timeout=150) as response, open(file_name, 'ab+') as out_stream:
 				shutil.copyfileobj(response, out_stream)
 		except urllib.error.URLError as e:
 			print(e.errno, '\n', e.reason, '\n')
