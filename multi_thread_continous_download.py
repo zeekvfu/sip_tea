@@ -32,6 +32,7 @@ def sub_thread_continous_download(url, file_name, begin, end, timeout_retry=True
 			# 此处认为已存在的同名文件，就是要下载的目标文件，只是未下载完而已，可以继续下载
 			if (current_size < target_size):
 				_begin += current_size
+			# 文件已下载完成
 			elif (current_size == target_size):
 				print("sub_thread_continous_download(): file %s already downloaded complete!" %(file_name))
 				return 
@@ -44,7 +45,7 @@ def sub_thread_continous_download(url, file_name, begin, end, timeout_retry=True
 		req = urllib.request.Request(url)
 		req.add_header('Range', 'bytes=%d-%d' % (_begin, end))
 		try:
-			with urllib.request.urlopen(req, timeout=150) as response, open(file_name, 'ab+') as out_stream:
+			with urllib.request.urlopen(req, timeout=300) as response, open(file_name, 'ab+') as out_stream:
 				shutil.copyfileobj(response, out_stream)
 		except urllib.error.URLError as e:
 			print(e.errno, '\n', e.reason, '\n')
