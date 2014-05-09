@@ -57,6 +57,8 @@ logging.getLogger().addHandler(stdout_handler)
 
 for index in range(begin, end+1):
 	url = get_url(index)
+	if url is None:
+		continue
 	logging.info(str(index) + '\t' + url)
 	multi_thread_continous_download(url)
 
@@ -66,25 +68,19 @@ logging.shutdown()
 
 
 # URL 特征：
-# 1
-# http://screencasts.b0.upaiyun.com/podcasts/nil_podcast_1.m4a
-# [2, 4]
-# http://screencasts.b0.upaiyun.com/podcasts/teahour_podcast_2.mp3
-# [5, 8]
-# http://screencasts.b0.upaiyun.com/podcasts/teahour_podcast_5.m4a
-# 9
-# http://screencasts.b0.upaiyun.com/podcasts/teahour_dhh.m4a
-# 10
-# http://screencasts.b0.upaiyun.com/podcasts/teahour_podcast_9.m4a
+# 1							http://screencasts.b0.upaiyun.com/podcasts/nil_podcast_1.m4a
+# [2, 4]					http://screencasts.b0.upaiyun.com/podcasts/teahour_podcast_2.mp3
+# [5, 8]					http://screencasts.b0.upaiyun.com/podcasts/teahour_podcast_5.m4a
+# 9							http://screencasts.b0.upaiyun.com/podcasts/teahour_dhh.m4a
+# 10						http://screencasts.b0.upaiyun.com/podcasts/teahour_podcast_9.m4a
 # 下面的 URL 似乎有误？
 # http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_9.m4a
-# 22
-# http://teahourfm.qiniudn.com/teahour_episode_22.m4a
-# 23
-# http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_22-2.m4a
-# [11, 21], [24, 52]
-# http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_11.m4a
+# 22						http://teahourfm.qiniudn.com/teahour_episode_22.m4a
+# 23						http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_22-2.m4a
+# [11, 21], [24, 52]		http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_11.m4a
 
 # download('http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_43.m4a')
+
+
 
 
