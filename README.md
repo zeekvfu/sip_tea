@@ -15,7 +15,7 @@ Linux/Windows + Python 3.x
 	$ chmod u+x crawler.py  
 	$ ./crawler.py  
 	* Windows 下，  
-	鼠标双击运行 crawler.py  
+	鼠标双击运行 `crawler.py`  
 3. 根据提示，输入要下载的 podcast episodes 区间即可  
 
 ###文件下载，特性支持：  
