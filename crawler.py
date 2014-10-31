@@ -19,6 +19,8 @@ import multi_thread_continous_download
 from multi_thread_continous_download import multi_thread_continous_download
 
 
+
+
 def get_url(index):
 	if (index in range(11, 22)) or (index >= 24):
 		url = 'http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_' + str(index) + '.m4a'
@@ -45,7 +47,7 @@ end   = int(input('请输入结束的期数：'))
 
 log_file = 'url.log'
 with open(log_file, 'at') as logger:
-	logger.write('\n****************************************************************************************************\n')
+	logger.write('\n*********************************************************************************************************\n')
 
 # 写日志到文件
 logging.basicConfig(filename=log_file, format="%(asctime)s,%(msecs)d\t%(levelname)s\t%(message)s", datefmt="%Y-%m-%d %H:%M:%S", style='%', level=logging.DEBUG)
@@ -77,7 +79,7 @@ logging.shutdown()
 # http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_9.m4a
 # 22						http://teahourfm.qiniudn.com/teahour_episode_22.m4a
 # 23						http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_22-2.m4a
-# [11, 21], [24, 52]		http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_11.m4a
+# [11, 21], [24, 70]		http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_11.m4a
 
 # download('http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_43.m4a')
 
