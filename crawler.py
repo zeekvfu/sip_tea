@@ -6,14 +6,14 @@
 import sys
 import logging
 
-import single_thread_download
-from single_thread_download import single_thread_download
+# import single_thread_download
+# from single_thread_download import single_thread_download
 
 import single_thread_continous_download
 from single_thread_continous_download import single_thread_continous_download
 
-import multi_thread_download
-from multi_thread_download import multi_thread_download
+# import multi_thread_download
+# from multi_thread_download import multi_thread_download
 
 import multi_thread_continous_download
 from multi_thread_continous_download import multi_thread_continous_download
@@ -21,7 +21,8 @@ from multi_thread_continous_download import multi_thread_continous_download
 
 
 
-def get_url(index):
+# 获取 URL 下载链接
+def get_download_url(index):
 	if (index in range(11, 22)) or (index >= 24):
 		url = 'http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_' + str(index) + '.m4a'
 	elif index == 23:
@@ -41,7 +42,7 @@ def get_url(index):
 	return url
 
 
-print('将从 Teahour.FM 下载 podcast episodes ...')
+print('将从 Teahour.FM(http://teahour.fm/) 下载 podcast episodes ...')
 begin = int(input('请输入开始的期数：'))
 end   = int(input('请输入结束的期数：'))
 
@@ -58,7 +59,7 @@ stdout_handler.setFormatter(formatter)
 logging.getLogger().addHandler(stdout_handler)
 
 for index in range(begin, end+1):
-	url = get_url(index)
+	url = get_download_url(index)
 	if url is None:
 		continue
 	logging.info(str(index) + '\t' + url)
