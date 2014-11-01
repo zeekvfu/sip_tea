@@ -36,7 +36,7 @@ def single_thread_continous_download(url, file_name=None, overwrite=False):
 			return 
 		# 已存在的同名文件大小 > 要下载的目标文件大小，重命名已存在文件，重新下载目标文件
 		else:
-			print("single_thread_continous_download(): file size exception, current_size > target_size!")
+			print("single_thread_continous_download(): file %s size exception, current_size != target_size" %(file_name))
 			new_file_name = file_name + '_' + get_current_timestamp()
 			os.rename(file_name, new_file_name)
 			print("single_thread_continous_download(): %s RENAMED TO %s" %(file_name, new_file_name))
@@ -48,7 +48,9 @@ def single_thread_continous_download(url, file_name=None, overwrite=False):
 	except urllib.error.URLError as e:
 		print("single_thread_continous_download(): urllib.error.URLError\t", url, "\t", e.errno, "\t", e.reason)
 	except socket.timeout:
-		print('single_thread_continous_download(): socket time out ...')
+		print('single_thread_continous_download(): socket.timeout ...')
+	except ConnectionResetError:
+		print("single_thread_continous_download(): ConnectionResetError")
 
 # single_thread_continous_download("http://screencasts.b0.upaiyun.com/podcasts/teahour_episode_70.m4a")
 

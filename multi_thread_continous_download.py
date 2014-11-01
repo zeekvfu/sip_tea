@@ -11,7 +11,7 @@ import socket
 # from socket import timeout
 
 import utility
-from utility import get_current_timestamp, get_file_size, split_file_size, get_file_name_split, append_file
+from utility import get_current_timestamp, get_file_size, split_file_size, get_file_name_split, check_file_integrity, append_file
 
 import single_thread_continous_download
 from single_thread_continous_download import single_thread_continous_download
@@ -20,11 +20,10 @@ from single_thread_continous_download import single_thread_continous_download
 
 
 # 各个子线程下载自己负责的那部分内容
-def sub_thread_continous_download(url, file_name, begin, end, timeout_retry=True):
+def sub_thread_continous_download(url, file_name, begin, end, target_size, timeout_retry=True):
 	while True:
 		_begin = begin
 		if os.path.exists(file_name):
-			target_size = end - begin + 1
 			if (target_size < 0):
 				print("sub_thread_continous_download(): file size error!")
 				return
@@ -52,9 +51,12 @@ def sub_thread_continous_download(url, file_name, begin, end, timeout_retry=True
 			print("sub_thread_continous_download(): urllib.error.URLError\t", url, "\t", e.errno, "\t", e.reason)
 			return 
 		except socket.timeout:
-			print('sub_thread_continous_download(): socket time out ...')
+			print('sub_thread_continous_download(): socket.timeout ...')
 			if not timeout_retry:
 				break
+		except ConnectionResetError:
+			print("sub_thread_continous_download(): ConnectionResetError")
+			return
 	return 
 
 
@@ -80,7 +82,7 @@ def multi_thread_continous_download(url, file_name=None, overwrite=False, thread
 				return 
 			# 已存在的同名文件大小 != 要下载的目标文件大小，重命名已存在文件，重新下载目标文件
 			else:
-				print("multi_thread_continous_download(): file size exception, current_size != target_size")
+				print("multi_thread_continous_download(): file %s size exception, current_size != target_size" %(file_name))
 				new_file_name = file_name + '_' + get_current_timestamp()
 				os.rename(file_name, new_file_name)
 				print("multi_thread_continous_download(): %s RENAMED TO %s" %(file_name, new_file_name))
@@ -88,12 +90,14 @@ def multi_thread_continous_download(url, file_name=None, overwrite=False, thread
 		thread_group = []
 		for i in range(thread_num):
 			# print(i, '\t', ranges[i][0], ',', ranges[i][1])
-			t = threading.Thread(target=sub_thread_continous_download, name="thread%d" % i, args=(url, get_file_name_split(file_name, i), ranges[i][0], ranges[i][1]))
+			t = threading.Thread(target=sub_thread_continous_download, name="thread%d" % i, args=(url, get_file_name_split(file_name, i), ranges[i][0], ranges[i][1], ranges[i][2]))
 			t.start()
 			thread_group.append(t)
 		for t in thread_group:
 			t.join()
-		append_file(file_name, thread_num)
+		# 拼接前检查各个文件块的完整性
+		if check_file_integrity(file_name, target_size, thread_num):
+			append_file(file_name, thread_num)
 
 # multi_thread_continous_download("http://iweb.dl.sourceforge.net/project/zsh/zsh-doc/5.0.5/zsh-5.0.5-doc.tar.bz2", overwrite=True, thread_num=4)
 # multi_thread_continous_download("https://github.com/zeekvfu/sip_tea/archive/master.zip", overwrite=True, thread_num=4)
