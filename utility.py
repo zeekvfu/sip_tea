@@ -31,7 +31,7 @@ def get_file_size(url):
 		print("get_file_size(): urllib.error.URLError\t", url, "\t", e.errno, "\t", e.reason)
 		return -1
 	except socket.timeout:
-		print('get_file_size(): socket time out ...')
+		print('get_file_size(): socket.timeout')
 		return -1
 	except ConnectionResetError:
 		print("get_file_size(): ConnectionResetError")

@@ -25,13 +25,13 @@ def sub_thread_continous_download(url, file_name, begin, end, target_size, timeo
 		_begin = begin
 		if os.path.exists(file_name):
 			if (target_size < 0):
-				print("sub_thread_continous_download(): file size error!")
+				print("sub_thread_continous_download(): file target_size < 0!")
 				return
 			current_size = os.path.getsize(file_name)
 			# 此处认为已存在的同名文件，就是要下载的目标文件；只是未下载完而已，可以继续下载
 			if (current_size < target_size):
 				_begin += current_size
-			# 理论上来说，更严谨的方法是下载完目标文件，然后比较两个文件的 MD5 值。但是需要事先下载整个文件，可能浪费带宽（尤其是文件很大的时侯）
+			# 理论上来说，更严谨的方法是下载完目标文件，然后比较两个文件的 MD5 值。但是需要事先下载整个文件，浪费带宽（尤其是文件很大的时侯）
 			elif (current_size == target_size):
 				print("sub_thread_continous_download(): file %s already downloaded complete!" %(file_name))
 				return 
@@ -51,7 +51,7 @@ def sub_thread_continous_download(url, file_name, begin, end, target_size, timeo
 			print("sub_thread_continous_download(): urllib.error.URLError\t", url, "\t", e.errno, "\t", e.reason)
 			return 
 		except socket.timeout:
-			print('sub_thread_continous_download(): socket.timeout ...')
+			print('sub_thread_continous_download(): socket.timeout')
 			if not timeout_retry:
 				break
 		except ConnectionResetError:

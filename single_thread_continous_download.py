@@ -48,7 +48,7 @@ def single_thread_continous_download(url, file_name=None, overwrite=False):
 	except urllib.error.URLError as e:
 		print("single_thread_continous_download(): urllib.error.URLError\t", url, "\t", e.errno, "\t", e.reason)
 	except socket.timeout:
-		print('single_thread_continous_download(): socket.timeout ...')
+		print('single_thread_continous_download(): socket.timeout')
 	except ConnectionResetError:
 		print("single_thread_continous_download(): ConnectionResetError")
 
